@@ -121,9 +121,18 @@ async function run(prompt) {
 
   const result = await chatSession.sendMessage(prompt);
   const response = result?.response?.candidates[0]?.content?.parts[0]?.text;
-  console.log(response);
+  // console.log(response);
 
   return response;
 }
+// (async () => {
+//   try {
+//     const response = await run(inputPrompt);
+//     console.log("Response from the model:", response);
+//   } catch (error) {
+//     console.error("Error running the model:", error);
+//   }
+// })();
+
 
 export default run;

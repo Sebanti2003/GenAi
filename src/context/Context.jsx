@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState} from "react";
+import { createContext, useState, useEffect } from "react";
 import run from "../config/gemini";
 
 // Input Prompt for Mira
@@ -56,26 +56,39 @@ const ContextProvider = (props) => {
     setRecentQuestions([]);
   };
 
+  // Initialize the input prompt and response when the component mounts
+  useEffect(() => {
+    const fetchInitialResponse = async () => {
+      try {
+        const response = await run(inputPrompt);
+        console.log("Initial response from Mira:", response);
+        setChatHistory([{ role: "Mira", content: response }]); // Start with Mira's initial greeting
+      } catch (err) {
+        console.error("Error fetching initial response:", err);
+      }
+    };
+
+    fetchInitialResponse(); // Fetch the initial greeting when the component mounts
+  }, []);
+
   // Handle submission of the user input
   const onSent = async (prompt) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
     setError(null);
-  
+
     let response;
-  
+
     try {
       if (prompt !== undefined) {
         response = await run(prompt);
-        console.log("this is context js ", response);
-  
         setRecentPrompt(prompt);
       } else {
         // Update chat history with user input
         setChatHistory([...chatHistory, { role: "user", content: input }]);
         setRecentPrompt(input);
-  
+
         // Include the initial prompt if it's the first message
         const fullPrompt =
           chatHistory.length === 0
@@ -84,51 +97,49 @@ const ContextProvider = (props) => {
                 .map((turn) => `${turn.role}: ${turn.content}`)
                 .join("\n")}\nUser: ${input}`;
         response = await run(fullPrompt);
-  
+
         // Update chat history with Mira's response
         setChatHistory([
           ...chatHistory,
           { role: "user", content: input },
           { role: "Mira", content: response },
         ]);
-  
+
         // Update recent questions
         if (input.trim() !== "") {
           setRecentQuestions([input, ...recentQuestions.slice(0, 4)]);
         }
       }
-  
+
       // Safety check for inappropriate content
       if (response.includes("harmful") || response.includes("inappropriate")) {
         throw new Error(
           "Potentially harmful or inappropriate content detected. Please try a different prompt."
         );
       }
-  
+
       // Format the response text
       let responseArray = response.split("**");
       let newResponse = "";
-  
+
       for (let i = 0; i < responseArray.length; i++) {
-        if (i == 0 || i % 2 !== 1) {
+        if (i === 0 || i % 2 !== 1) {
           newResponse += responseArray[i];
         } else {
           newResponse += "<b>" + responseArray[i] + "</b>";
         }
       }
-  
+
       let newResponse2 = newResponse.split("*").join("</br>");
-  
       let newResponseArray = newResponse2.split(" ");
-  
+
       for (let i = 0; i < newResponseArray.length; i++) {
         const nextWord = newResponseArray[i];
         delayPara(i, nextWord + " ");
       }
-  
-      // Return the final formatted response
+
       return response;
-  
+
     } catch (err) {
       setError(err.message);
       console.error("Error fetching response:", err);
@@ -138,7 +149,7 @@ const ContextProvider = (props) => {
       setInput("");
     }
   };
-  
+
   const contextValue = {
     input,
     setInput,
@@ -156,37 +167,11 @@ const ContextProvider = (props) => {
     setRecentQuestions,
   };
 
-  // const ChatHistory = () => {
-  //   const { recentPrompt, recentQuestions } = useContext(Context);
-
-  //   return (
-  //     <div className="sidebar">
-  //       {/* Display recent prompt */}
-  //       <h3>Recent Prompt:</h3>
-  //       <p>{recentPrompt || "No recent prompt"}</p>
-
-  //       {/* Display previous prompts */}
-  //       <h3>Previous Questions:</h3>
-  //       {recentQuestions.length > 0 ? (
-  //         <ul>
-  //           {recentQuestions.map((question, index) => (
-  //             <li key={index}>{question}</li>
-  //           ))}
-  //         </ul>
-  //       ) : (
-  //         <p>No recent questions available</p>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
   return (
     <Context.Provider value={contextValue}>
       {props.children}
-      {/* <ChatHistory /> Integrate ChatHistory here */}
     </Context.Provider>
   );
 };
 
 export default ContextProvider;
-
