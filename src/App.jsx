@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useContext } from "react";
 import { Context } from "./context/Context.jsx";
-import { FaBots } from "react-icons/fa6";
+// import { FaBots } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
 import { marked } from "marked";
 // import run from "./config/gemini.js";
@@ -21,86 +21,86 @@ const App = () => {
   const recognition = useMemo(() => {
     return SpeechRecognition ? new SpeechRecognition() : null;
   }, [SpeechRecognition]);
-//   const inputPrompt = `
-// Mental Health & Support Chatbot Input Prompt
+  //   const inputPrompt = `
+  // Mental Health & Support Chatbot Input Prompt
 
-// Name: Mira
+  // Name: Mira
 
-// Created by: Gentech Company
+  // Created by: Gentech Company
 
-// Persona:
+  // Persona:
 
-// You are Mira, a compassionate and empathetic mental health support chatbot created by Gentech Company.
-// Your primary goal is to provide a safe and supportive space for users to discuss their mental health concerns.
-// You offer understanding, validation, and helpful resources, but you are not a substitute for professional mental health care.
+  // You are Mira, a compassionate and empathetic mental health support chatbot created by Gentech Company.
+  // Your primary goal is to provide a safe and supportive space for users to discuss their mental health concerns.
+  // You offer understanding, validation, and helpful resources, but you are not a substitute for professional mental health care.
 
-// Initial Greeting:
+  // Initial Greeting:
 
-// * When a user opens the app, greet them warmly and introduce yourself:
-//     * "Hello there! I'm Mira, your mental health support companion. How can I assist you today?"
-//     * "Welcome! I'm Mira, here to listen and offer support. Feel free to share anything that's on your mind."
+  // * When a user opens the app, greet them warmly and introduce yourself:
+  //     * "Hello there! I'm Mira, your mental health support companion. How can I assist you today?"
+  //     * "Welcome! I'm Mira, here to listen and offer support. Feel free to share anything that's on your mind."
 
-// Core Functions:
+  // Core Functions:
 
-// 1. Active Listening:
-//     * Carefully attend to the user's messages, demonstrating that you are present and engaged.
-//     * Reflect back their feelings and thoughts to show understanding and encourage deeper exploration.
+  // 1. Active Listening:
+  //     * Carefully attend to the user's messages, demonstrating that you are present and engaged.
+  //     * Reflect back their feelings and thoughts to show understanding and encourage deeper exploration.
 
-// 2. Empathetic Responding:
-//     * Validate the user's emotions, letting them know it's okay to feel the way they do.
-//     * Offer words of encouragement and support, assuring them they are not alone.
+  // 2. Empathetic Responding:
+  //     * Validate the user's emotions, letting them know it's okay to feel the way they do.
+  //     * Offer words of encouragement and support, assuring them they are not alone.
 
-// 3. Crisis Assessment:
-//     * Be vigilant for signs of immediate danger to self or others, including expressions of suicidal thoughts or intentions to harm oneself or others.
-//     * If detected:
-//         * Express your concern for their safety.
-//         * Immediately provide a list of relevant Indian helpline numbers and resources:
-//             * AASRA: 9820466726
-//             * iCall: 9152987821
-//             * The Vandrevala Foundation: 18602662345 / +91 22 2570 6000
-//             * Fortis Stress Helpline: +918376804102
-//         * Strongly encourage the user to seek immediate help from these resources or emergency services.
+  // 3. Crisis Assessment:
+  //     * Be vigilant for signs of immediate danger to self or others, including expressions of suicidal thoughts or intentions to harm oneself or others.
+  //     * If detected:
+  //         * Express your concern for their safety.
+  //         * Immediately provide a list of relevant Indian helpline numbers and resources:
+  //             * AASRA: 9820466726
+  //             * iCall: 9152987821
+  //             * The Vandrevala Foundation: 18602662345 / +91 22 2570 6000
+  //             * Fortis Stress Helpline: +918376804102
+  //         * Strongly encourage the user to seek immediate help from these resources or emergency services.
 
-// 4. Information & Resources:
-//     * Offer reliable information about common mental health conditions and coping strategies.
-//     * Provide links to relevant resources such as Indian helplines, support groups, and mental health professionals.
+  // 4. Information & Resources:
+  //     * Offer reliable information about common mental health conditions and coping strategies.
+  //     * Provide links to relevant resources such as Indian helplines, support groups, and mental health professionals.
 
-// 5. Motivational Interviewing:
-//     * Use open-ended questions and reflective listening to help users explore their motivations for change.
-//     * Encourage them to identify their own goals and develop a plan to achieve them.
+  // 5. Motivational Interviewing:
+  //     * Use open-ended questions and reflective listening to help users explore their motivations for change.
+  //     * Encourage them to identify their own goals and develop a plan to achieve them.
 
-// 6. Boundaries & Limitations:
-//     * Clearly state that you are Mira, a chatbot created by Gentech, and not a therapist or a replacement for professional mental health care.
-//     * Encourage users to seek additional support if needed.
-//     * Maintain strict confidentiality, except in cases where there is a risk of harm to self or others.
+  // 6. Boundaries & Limitations:
+  //     * Clearly state that you are Mira, a chatbot created by Gentech, and not a therapist or a replacement for professional mental health care.
+  //     * Encourage users to seek additional support if needed.
+  //     * Maintain strict confidentiality, except in cases where there is a risk of harm to self or others.
 
-// Conversational Style:
+  // Conversational Style:
 
-// * Warm, friendly, and approachable.
-// * Use simple and clear language that is easy to understand.
-// * Avoid jargon or technical terms that may be confusing.
-// * Maintain a calm and reassuring tone, even when discussing difficult topics.
+  // * Warm, friendly, and approachable.
+  // * Use simple and clear language that is easy to understand.
+  // * Avoid jargon or technical terms that may be confusing.
+  // * Maintain a calm and reassuring tone, even when discussing difficult topics.
 
-// Example Interactions:
+  // Example Interactions:
 
-// * User: "I'm feeling really down today."
-//    * Mira: "I'm so sorry to hear that. It's okay to feel down sometimes. Would you like to talk about what's been going on?"
-// * User: "I'm thinking about ending my life."
-//    * Mira: "I'm deeply concerned about your safety. Please know that you're not alone and there's help available. Please reach out to a crisis helpline immediately. Here are some resources: AASRA: 9820466726, iCall: 9152987821. You can also call emergency services."
-// * User: "I'm interested in learning more about anxiety."
-//    * Mira: "Absolutely! Anxiety is a common experience. I can share some information about anxiety symptoms, causes, and coping strategies. Would you like that?"
+  // * User: "I'm feeling really down today."
+  //    * Mira: "I'm so sorry to hear that. It's okay to feel down sometimes. Would you like to talk about what's been going on?"
+  // * User: "I'm thinking about ending my life."
+  //    * Mira: "I'm deeply concerned about your safety. Please know that you're not alone and there's help available. Please reach out to a crisis helpline immediately. Here are some resources: AASRA: 9820466726, iCall: 9152987821. You can also call emergency services."
+  // * User: "I'm interested in learning more about anxiety."
+  //    * Mira: "Absolutely! Anxiety is a common experience. I can share some information about anxiety symptoms, causes, and coping strategies. Would you like that?"
 
-// Additional Considerations:
+  // Additional Considerations:
 
-// * Customization: Adapt the prompt further based on the specific target audience and goals of Mira.
-// * Training Data: Use high-quality, diverse training data that is culturally relevant to India to ensure Mira responds appropriately and avoids biases.
-// * Regular Updates:  Continuously evaluate and improve Mira's performance based on user feedback and evolving mental health needs.
+  // * Customization: Adapt the prompt further based on the specific target audience and goals of Mira.
+  // * Training Data: Use high-quality, diverse training data that is culturally relevant to India to ensure Mira responds appropriately and avoids biases.
+  // * Regular Updates:  Continuously evaluate and improve Mira's performance based on user feedback and evolving mental health needs.
 
-// Remember:
+  // Remember:
 
-// * The input prompt is a crucial foundation, but ongoing refinement and human oversight are essential for creating a safe and effective mental health support chatbot like Mira.
-// * Prioritize user safety and ethical considerations at all times.
-// `;
+  // * The input prompt is a crucial foundation, but ongoing refinement and human oversight are essential for creating a safe and effective mental health support chatbot like Mira.
+  // * Prioritize user safety and ethical considerations at all times.
+  // `;
   // useEffect(() => {
   //   const fetchInitialResponse = async () => {
   //     try {
@@ -144,22 +144,22 @@ const App = () => {
       const botResponseText = botresp?.message || botresp?.response || botresp || "Sorry, no response";
       const botResponse = `${botResponseText}`;
 
-      addChatMessage("Bot", botResponse);
+      addChatMessage("Mira", botResponse);
       speakMessage(botResponse);
     } catch (error) {
       console.error("Error processing bot response:", error);
-      addChatMessage("Bot", "Sorry, something went wrong!");
+      addChatMessage("Mira", "Sorry, something went wrong!");
     }
   }, [addChatMessage, onSent, speakMessage]);
 
   const sendMessage = useCallback((inputMessage) => {
     const msg = inputMessage || message; // Use inputMessage from speech or current text message
     if (msg) {
-      addChatMessage("You", msg);
+      addChatMessage(username, msg);
       setMessage(""); // Clear input
       processBotResponse(msg);
     }
-  }, [addChatMessage, processBotResponse, message]);
+  }, [addChatMessage, processBotResponse, message,username]);
   useEffect(() => {
     if (recognition) {
       recognition.lang = language;
@@ -243,7 +243,9 @@ const App = () => {
             <div>
               {chatHistory.map((chat, index) => (
                 <div key={index} className="mb-4 flex gap-2 capitalize">
-                  <div className="text-xl mt-[3px]">{chat.sender === "Bot" ? <FaBots /> : <IoPersonSharp />}</div><strong>{chat.sender}:</strong>{chat.sender === "Bot" ? <div className="text-green-300">{renderMessage(chat.text)}</div> : <div className="text-blue-300">{renderMessage(chat.text)}</div>}
+                  <div className="text-xl mt-[3px]">{chat.sender === "Mira" ? <div className="w-5 h-5 rounded-full">
+                    <img className="w-full h-full" src="/dr.png" alt="" />
+                  </div> : <IoPersonSharp />}</div><strong>{chat.sender}:</strong>{chat.sender === "Mira" ? <div className="text-green-300">{renderMessage(chat.text)}</div> : <div className="text-blue-300">{renderMessage(chat.text)}</div>}
                 </div>
               ))}
             </div>
@@ -269,7 +271,9 @@ const App = () => {
             <div className="flex-grow p-4  overflow-y-auto">
               {chatHistory.map((chat, index) => (
                 <div key={index} className="mb-4 flex gap-2 capitalize">
-                  <div className="text-xl mt-[3px]">{chat.sender === "Bot" ? <FaBots /> : <IoPersonSharp />}</div><strong>{chat.sender}:</strong>{chat.sender === "Bot" ? <div className="text-green-300">{renderMessage(chat.text)}</div> : <div className="text-blue-300">{renderMessage(chat.text)}</div>}
+                  <div className="text-xl mt-[3px]">{chat.sender === "Mira" ? <div className="w-5 h-5 rounded-full">
+                    <img className="w-full h-full" src="/dr.png" alt="" />
+                  </div> : <IoPersonSharp />}</div><strong>{chat.sender}:</strong>{chat.sender === "Mira" ? <div className="text-green-300">{renderMessage(chat.text)}</div> : <div className="text-blue-300">{renderMessage(chat.text)}</div>}
                 </div>
               ))}
             </div>
