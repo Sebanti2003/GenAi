@@ -170,6 +170,7 @@ const App = () => {
                 {isListening ? "🎙️ Listening..." : "🎤 Start Voice"}
               </button>
             </div>
+            <div className="font-mono tracking-tighter font-semibold text-center">Developed by Gentech Titans with ❤️</div>
 
             <div className="flex-grow p-4  overflow-y-auto">
               {chatHistory.map((chat, index) => (
